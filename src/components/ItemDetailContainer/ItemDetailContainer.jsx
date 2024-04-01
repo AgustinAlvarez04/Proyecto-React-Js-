@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react"
-import { getProductById } from "../../asyncMocks"
 import ItemDetail from "../ItemDetail/ItemDetail"
 import { useParams } from "react-router-dom"
-
+import { doc, getDoc} from "firebase/firestore"
+import { db } from "../../services/firebase"
 
 const ItemDetailContainer = () => {
+    
     const [product, setProduct] = useState(null)
     const { productoId } = useParams()
-    console.log(productoId)
 
     useEffect(() => {
-        getProductById(productoId).then(res => setProduct(res))
+        getDoc(doc(db, "Productos", productoId))
+            .then((querySnapshot) => {
+                const product = {id: querySnapshot.id, ...querySnapshot.data()}
+                setProduct(product)
+        })
+        .catch((error) =>{
+            console.error(error)
+        })
     }, [productoId])
-
-    if (!product) {
-        return <p>No existe este producto</p>
-    }
 
     return (
         <div>

@@ -1,8 +1,7 @@
-import React from 'react'
+
 import { useState, useEffect } from 'react'
 
 const ItemCount = ({ stock, inicial, agregar}) => {
-
     const [contador, setContador] = useState(inicial)
     const [color, setColor] = useState('black')
 
@@ -13,7 +12,6 @@ const ItemCount = ({ stock, inicial, agregar}) => {
             setColor("green")
         }
     }, [contador])
-
 
     const incrementar = () => {
         if (contador < stock) {
